@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chemical Process Safety Quiz</title>
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--ink:#1c2333;--muted:#6b7488;--accent:#2457d6;--ok:#1f9d55;--okbg:#e6f6ec;--bad:#d64545;--badbg:#fdeaea;--line:#dfe3ec}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;justify-content:center;padding:24px 14px}
+.wrap{width:100%;max-width:780px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+header h1{font-size:18px;margin:0}
+header span{color:var(--muted);font-size:13px}
+.card{background:var(--card);border-radius:14px;box-shadow:0 2px 14px rgba(20,30,60,.08);padding:26px}
+.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:18px}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.q{font-size:19px;line-height:1.45;font-weight:600;margin:0 0 20px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:#fff;border:2px solid var(--line);border-radius:10px;padding:13px 15px;margin-bottom:10px;font-size:16px;color:var(--ink);cursor:pointer;font-family:inherit;transition:.15s}
+.opt:hover{border-color:var(--accent);background:#f6f9ff}
+.opt b{min-width:24px;height:24px;border-radius:50%;background:var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:12px;flex:none}
+.opt.wrong{border-color:var(--bad);background:var(--badbg);cursor:default}
+.opt.wrong b{background:var(--bad);color:#fff}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.right b{background:var(--ok);color:#fff}
+.msg{min-height:22px;font-size:14px;margin-top:4px}
+.msg.bad{color:var(--bad)}.msg.ok{color:var(--ok)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}
+button.btn{background:var(--accent);color:#fff;border:0;border-radius:9px;padding:11px 20px;font-size:15px;cursor:pointer;font-family:inherit}
+button.btn.ghost{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+button.btn:hover{opacity:.9}
+select{padding:10px;border-radius:9px;border:2px solid var(--line);font-size:15px;font-family:inherit}
+h2{margin:0 0 8px}
+p.sub{color:var(--muted);margin:0 0 18px;line-height:1.5}
+.score{font-size:46px;font-weight:700;color:var(--accent);margin:6px 0}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
+td,th{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
+.hide{display:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:6px}
+.wk{background:#fff;border:2px solid var(--line);border-radius:12px;padding:16px;text-align:left;cursor:pointer;font-family:inherit;color:var(--ink);display:flex;flex-direction:column;gap:4px;transition:.15s}
+.wk:hover{border-color:var(--accent);background:#f6f9ff;transform:translateY(-2px)}
+.wk strong{font-size:17px}.wk small{color:var(--muted)}.wk em{font-style:normal;font-size:13px;color:var(--accent);margin-top:4px}
+@media(max-width:520px){.card{padding:18px}.q{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Chemical Process Safety &ndash; Practice Quiz</h1><span>NPTEL &middot; Prof. Shishir Sinha</span></header>
+<div class="card" id="app"></div>
+</div>
+<script>
+const W=[
+/* WEEK 1 */[
+[`In the "What If?" analysis method, what is the primary goal?`,[`To calculate accident statistics`,`To brainstorm potential failures and assess their consequences`,`To design new equipment`,`To train operators on daily routines`],1],
+[`Which method is used to identify both hazards and operability problems in a chemical process?`,[`HAZOP (Hazard and Operability Study)`,`OSHA Incidence Rate`,`Fatal Accident Rate`,`Incident Pyramid`],0],
+[`The Fatal Accident Rate (FAR) is based on which of the following assumptions?`,[`100 employees working for 10 years`,`1000 employees working their entire lifetime (50 years)`,`10,000 employees working for one year`,`100 employees working for 100 years`],1],
+[`What is the correct definition of a hazard in the context of chemical plant safety?`,[`The likelihood of an accident occurring`,`An inherent characteristic with the potential to cause harm`,`The consequence of an accident`,`The cost of property damage`],1],
+[`Which of the following is NOT an ingredient required for a successful safety program?`,[`Safety knowledge`,`Technical competence`,`Commitment`,`Profit maximization`],3],
+[`In the accident process, which step involves the event that starts the accident?`,[`Propagation`,`Termination`,`Initiation`,`Elimination`],2],
+[`Which of the following is an example of an inherently safer process method?`,[`Increasing process complexity`,`Using more hazardous raw materials`,`Reducing unnecessary complexity in design and operation`,`Raising operating temperatures and pressures`],2],
+[`What is the correct definition of a hazard in chemical plant safety?`,[`The likelihood of an accident occurring`,`An inherent characteristic with the potential to cause harm`,`The consequence of an accident`,`The cost of property damage`],1],
+[`The OSHA incidence rate (OIR) is calculated based on which formula?`,[`(Number of fatalities × 10^8) / (Total hours worked)`,`(Number of injuries & illness × 200,000) / (Total hours worked)`,`(Number of lost workdays × 100) / (Total number of employees)`,`(Number of near misses × 1,000) / (Total hours worked)`],1],
+[`Which method is used to identify both hazards and operability problems in a chemical process?`,[`HAZOP`,`OSHA Incidence Rate`,`Fatal Accident Rate`,`Incident Pyramid`],0]
+],
+/* WEEK 2 */[
+[`What is the primary function of the stratum corneum in human skin?`,[`Hormone production`,`Gas exchange`,`Protection against toxins`,`Blood circulation`],2],
+[`Which of the following is an irreversible toxic effect?`,[`Hepatotoxicity`,`Carcinogenicity`,`Dermatotoxicity`,`Nephrotoxicity`],1],
+[`The median lethal dose (LD50) is defined as the dose that kills:`,[`10% of the population`,`25% of the population`,`50% of the population`,`100% of the population`],2],
+[`Which statement best describes a hazard in toxicology?`,[`The probability of exposure`,`The likelihood of damage based on exposure`,`The amount of chemical present`,`The degree of toxicity`],3],
+[`Which of the following is a systemic toxin?`,[`Benzene`,`Potassium cyanide`,`Lead`,`Asbestos`],1],
+[`Which government agency is responsible for occupational safety in the USA?`,[`ACGIH`,`NIOSH`,`OSHA`,`EPA`],2],
+[`Which layer of the skin is composed of keratinized dead cells and is shed every two weeks?`,[`Dermis`,`Stratum corneum`,`Hypodermis`,`Subcutaneous layer`],1],
+[`Industrial hygiene includes anticipation, recognition, evaluation, and _______ of hazards.`,[`creation`,`elimination`,`control`,`measurement`],2],
+[`The median lethal dose (LD50) is usually expressed in _______ per kilogram of body weight.`,[`grams`,`micrograms`,`milligrams`,`liters`],2],
+[`True/False: The threshold dose is a dose below which no adverse effects are observed in a population.`,[`True`,`False`],0]
+],
+/* WEEK 3 */[
+[`What is the primary concern of Industrial Toxicology?`,[`Studying the effects of toxic substances on the environment`,`Studying the effects of toxic substances on humans and other organisms in the workplace`,`Developing toxic substances for industrial use`,`Analyzing the chemical composition of industrial waste`],1],
+[`What is the purpose of Material Safety Data Sheets (MSDS) in an industrial setting?`,[`To provide information on the cost of materials`,`To list the names of employees working with toxic substances`,`To provide detailed information on the hazards of chemicals and safe handling procedures`,`To track the production schedule`],2],
+[`What is the permissible exposure limit (PEL) in occupational safety regulations?`,[`The maximum time an employee can work in a hazardous area`,`The maximum concentration of a toxic substance that an employee can be exposed to during a specific time period`,`The minimum safety equipment required in industrial settings`,`The maximum number of employees allowed in a confined space`],1],
+[`What does TLV stand for in the context of industrial toxicology?`,[`The Least Viable Limit`,`Toxicity and Lethality Value`,`Threshold Limit Value`,`Toxic Liquid Volume`],2],
+[`What is the primary goal of Hazard Communication (HazCom)?`,[`To reduce chemical costs`,`To provide workers with information about chemical hazards and safe handling practices`,`To limit the use of chemicals in workplaces`,`To improve productivity through chemical usage`],1],
+[`What is the purpose of Personal Protective Equipment (PPE) in handling chemicals?`,[`To make the job more comfortable`,`To comply with fashion standards`,`To reduce exposure and protect from hazards`,`To increase visibility in the workplace`],2],
+[`Which type of fire extinguisher is suitable for use on flammable liquid fires?`,[`Class A`,`Class B`,`Class C`,`Class D`],1],
+[`If a chemical is splashed in the eyes, you should rinse with water for at least _______ minutes.`,[`2`,`5`,`15`,`30`],2],
+[`The symbol for a corrosive substance usually shows test tubes pouring liquid on a hand and a _______.`,[`Plant`,`Metal`,`Book`,`Flame`],1],
+[`True/False: The Threshold Limit Value (TLV) represents the maximum airborne concentration of a substance to which workers can be exposed day after day without adverse effects.`,[`True`,`False`],0]
+],
+/* WEEK 4 */[
+[`Which of the following is required under OSHA's Hazard Communication Standard?`,[`Free protective equipment for employees`,`Chemicals must be labeled, and employees trained on their safe use`,`All chemicals must be replaced annually`,`Only supervisors need to understand chemical hazards`],1],
+[`What is the purpose of GHS (Globally Harmonized System) in hazard communication?`,[`To standardize chemical labeling and classification worldwide`,`To restrict the use of hazardous chemicals`,`To promote local language usage on labels`,`To eliminate the need for chemical safety training`],0],
+[`What is the first step in responding to a chemical spill in the workplace?`,[`Clean up the spill immediately`,`Evacuate the area and notify appropriate personnel`,`Neutralize the spill with water`,`Dispose of the chemical in regular trash`],1],
+[`What is the key purpose of proper chemical labeling?`,[`To comply with inventory requirements`,`To ensure employees can quickly identify hazards and proper handling procedures`,`To simplify storage organization`,`To reduce chemical usage`],1],
+[`What should be included in an effective chemical safety training program?`,[`Identification of chemical hazards and how to use the SDS`,`Emergency procedures in case of exposure or spills`,`Safe storage and handling practices`,`All of the above`],3],
+[`Which of the following is a requirement for chemical container labeling?`,[`Only the chemical name`,`Hazard warnings and manufacturer information`,`Storage location`,`Expiry date only`],1],
+[`What is the purpose of a fume hood in a laboratory?`,[`To store chemicals safely`,`To provide a comfortable working environment`,`To prevent chemical spills`,`To remove harmful fumes and gases`],3],
+[`What is the main purpose of conducting a risk assessment in chemical safety?`,[`To eliminate all risks associated with chemicals`,`To identify and evaluate potential hazards and risks`,`To ensure proper chemical labeling`,`To determine the cost of chemical storage`],1],
+[`What is the purpose of regular training on chemical safety?`,[`To ensure employees are aware of the chemicals used in the workplace`,`To increase the workload of employees`,`To meet regulatory requirements`,`To make the workplace more crowded`],0],
+[`Which of the following is an example of a chemical exposure route?`,[`Inhalation`,`Ingestion`,`Skin contact`,`All of the above`],3]
+],
+/* WEEK 5 */[
+[`Which three elements are necessary to form the fire triangle?`,[`Fuel, water, oxygen`,`Fuel, oxygen, heat`,`Oxygen, nitrogen, heat`,`Fuel, nitrogen, water`],1],
+[`Which gas produced during a fire is highly toxic and can be fatal if inhaled?`,[`Oxygen`,`Carbon monoxide`,`Argon`,`Nitrogen`],1],
+[`Which method is used to extinguish a fire by removing oxygen?`,[`Starvation`,`Cooling`,`Smothering`,`Dilution`],2],
+[`The lowest temperature at which a liquid gives off enough vapor to form an ignitable mixture is called:`,[`Flash point`,`Boiling point`,`Fire point`,`Melting point`],0],
+[`Which class of fire involves flammable and combustible liquids and gases?`,[`Class A`,`Class B`,`Class C`,`Class D`],1],
+[`Which fire extinguisher type is suitable for use on electrical fires?`,[`Water`,`Carbon dioxide (CO₂)`,`Wet chemical`,`Foam`],1],
+[`What is a BLEVE?`,[`Boiling Liquid Expanding Vapor Explosion`,`Basic Liquid Energy Vapor Explosion`,`Burning Liquid Emitting Vapor Explosion`,`Boiling Liquid Emitting Vapor Explosion`],0],
+[`Which explosion type occurs in open areas due to flammable gas spills?`,[`Confined explosion`,`Unconfined explosion`,`Dust explosion`,`BLEVE`],1],
+[`Which of the following is a method to prevent dust explosions?`,[`Increase turbulence`,`Add moisture`,`Increase oxygen concentration`,`Use fine powders`],1],
+[`True/False: A BLEVE occurs when a vessel containing a pressurized liquid below its boiling point ruptures.`,[`True`,`False`],1]
+],
+/* WEEK 6 */[
+[`What does the acronym PASS stand for in fire extinguisher use?`,[`Pull, Aim, Squeeze, Sweep`,`Point, Assess, Secure, Stop`,`Prepare, Assess, Strike, Secure`,`Pull, Assess, Spray, Stop`],0],
+[`Which purging method involves alternating vacuum and inert gas cycles?`,[`Pressure purging`,`Sweep-through purging`,`Vacuum purging`,`Combined pressure-vacuum purging`],2],
+[`What is the minimum oxygen concentration (MOC) typically required to prevent combustion of most gases?`,[`2%`,`5%`,`10%`,`21%`],2],
+[`Which of the following is a common source of static electricity in chemical plants?`,[`Pumping nonconductive liquids`,`Heating with steam`,`Using explosion-proof equipment`,`Spraying water`],0],
+[`Which discharge type is most energetic and likely to ignite flammable gases or dusts?`,[`Brush discharge`,`Spark discharge`,`Corona discharge`,`Conical pile discharge`],1],
+[`Which class of fire involves combustible metals?`,[`Class A`,`Class B`,`Class C`,`Class D`],3],
+[`Explosion-proof housings are required in which type of area?`,[`Non-XP (non-explosion proof)`,`XP (explosion proof required)`,`Ventilated areas only`,`Outdoor areas only`],1],
+[`What is the main hazard of a BLEVE (Boiling Liquid Expanding Vapor Explosion)?`,[`Toxic gas release`,`Violent pressure wave and fireball`,`Water contamination`,`Increased humidity`],1],
+[`The method used to eliminate voltage differences between two conductive materials is known as _______.`,[`Insulating`,`Bonding`,`Heating`,`Mixing`],1],
+[`A _______ fire extinguisher is recommended for use on Class D fires involving combustible metals.`,[`Water`,`Wet chemical`,`Dry powder`,`Foam`],2]
+],
+/* WEEK 7 */[
+[`Which component of a sprinkler head breaks up the water stream into an efficient extinguishing pattern?`,[`Frame`,`Orifice`,`Thermal linkage`,`Deflector`],3],
+[`What is the primary purpose of a pre-action sprinkler system?`,[`Discharge water immediately upon fire detection`,`Prevent water from entering pipes until a fire is confirmed`,`Use nitrogen instead of water for fire suppression`,`Activate all sprinklers simultaneously`],1],
+[`The maximum allowable working pressure (MAWP) of a vessel is defined as:`,[`The highest pressure that the weakest vessel component can withstand`,`The pressure at which the relief valve opens`,`The operating pressure during normal service`,`The pressure during a runaway reaction`],0],
+[`Which relief device is suitable for handling corrosive fluids?`,[`Conventional spring-operated valve`,`Balanced bellows valve`,`Rupture disk`,`Pilot-operated valve`],2],
+[`Which option is correct for the following statements about a fire sprinkler system?\nI. Fire sprinklers are designed to detect and extinguish fires automatically.\nII. Sprinklers are activated when smoke is detected in the room.\nIII. Each sprinkler head activates independently when exposed to high heat.\nIV. Fire sprinkler systems can reduce property damage and save lives.`,[`I, II, and III only`,`I, III, and IV only`,`II and IV only`,`I, II, III, and IV`],1],
+[`Which relief device is prone to chatter if oversized?`,[`Rupture disk`,`Pilot-operated valve`,`Conventional spring-operated valve`,`Balanced bellows valve`],2],
+[`In a deluge sprinkler system, all sprinkler heads are:`,[`Open and activated by a detection system`,`Closed until activated by heat`,`Filled with nitrogen`,`Designed for corrosive environments`],0],
+[`What is the primary advantage of water mist systems?`,[`Use less water`,`Absorb heat and displace oxygen`,`Operate at high pressures`,`Prevent electrical fires`],1],
+[`Which scenario is considered "credible" for relief system design?`,[`Multiple independent failures`,`Operator error during maintenance`,`Single failure with severe consequences`,`Earthquake-induced overpressure`],2],
+[`True/False: The PASS method applies to fire alarm systems, not extinguishers.`,[`True`,`False`],1]
+],
+/* WEEK 8 */[
+[`In hypersonic chemically reacting flows, the condition referred to as frozen flow occurs when:`,[`The chemical reaction completes faster than the fluid travels a unit distance.`,`The chemical reaction is at equilibrium at every point in the medium.`,`The chemical reaction time is longer than the fluid transit time over a unit distance.`,`The composition of the mixture changes instantaneously with temperature.`],2],
+[`In the API method for flashing liquids, accurate __________ data is essential, since small variations can significantly affect the calculated density values.`,[`Mechanical`,`Thermo-physical`,`Electrical`,`Structural`],1],
+[`The Omega Method in relief sizing is suitable for:`,[`High-pressure systems near critical points`,`Multi-phase flashing flows`,`Non-equilibrium conditions`,`Single-component fluids at low-to-medium pressures`],3],
+[`Which of the following statements correctly describes equilibrium flow in chemically reacting hypersonic conditions?`,[`Evaporation starts due to pressure drop and depends on nuclei and superheating.`,`The time required for chemical reactions is larger than the fluid transit time.`,`No direct mathematical equations are available for modeling such flows.`,`The time required for chemical reactions is smaller than the fluid transit time.`],3],
+[`Flashing of liquid occurs when:`,[`Evaporation starts due to a pressure drop caused by thermodynamic and mechanical non-equilibrium.`,`The reaction time is much larger than the fluid transit time.`,`The nuclei present in the liquid vanish completely.`,`The liquid attains complete equilibrium with the vapor phase.`],0],
+[`Which of the following is true about non-equilibrium flow?`,[`It occurs when chemical reactions complete instantly.`,`It is difficult to model as no direct mathematical equation is available.`,`The reaction time is much smaller than the fluid transit time.`,`It always corresponds to frozen flow conditions.`],1],
+[`In the API method for flashing liquids (boiling point > 340 K), the Omega (ω) parameter is determined from:`,[`The pressure drops across the discharge line at constant temperature.`,`Two-phase density of the fluid at two pressures P0 and P9=0.9P0, at constant entropy.`,`The vapor–liquid equilibrium curve at varying temperatures.`,`The enthalpy difference between vapor and liquid phases.`],1],
+[`In equilibrium flow, the chemical reaction time is:`,[`Greater than the fluid transit time.`,`Equal to the fluid transit time.`,`Smaller than the fluid transit time.`,`Independent of the fluid transit time.`],2],
+[`True/False: The system can be set at zero overpressure if the pressure inside the vessel does not cross the limit needed to fully open the valve.`,[`True`,`False`],0],
+[`In the PVT relation of a substance under two-phase conditions, which equation is commonly used to calculate vapor–liquid equilibria?`,[`Ideal gas law`,`Clapeyron equation`,`Clausius–Clapeyron equation`,`Van der Waals equation`],2]
+],
+/* WEEK 9 */[
+[`Which definition best describes probability in risk analysis?`,[`A subjective opinion`,`The frequency of occurrence of an event in a long series of trials`,`The impact of an event`,`The cost of a failure`],1],
+[`Which of the following is a key feature of an event tree analysis (ETA)?`,[`Deductive reasoning`,`Backward-looking approach`,`Inductive reasoning`,`Only considers failures`],2],
+[`Which statement about qualitative risk analysis is TRUE?`,[`It always uses statistical models`,`It is recommended for the early phases of projects`,`It requires numerical data collection`,`It is more precise than quantitative analysis`],1],
+[`Fault Tree Analysis (FTA) is best described as:`,[`A bottom-up, inductive method`,`A top-down, deductive method`,`A random sampling method`,`A qualitative-only tool`],1],
+[`Which is a limitation of FTA?`,[`Cannot be quantified`,`Only applies to small systems`,`Requires a separate tree for each top event`,`Does not use Boolean logic`],2],
+[`Cause-Consequence Analysis combines features of:`,[`FTA (Fault Tree Analysis) and ETA (Event Tree Analysis)`,`Bowtie and LOPA`,`Qualitative and quantitative analysis`,`Binomial and Poisson distributions`],0],
+[`In Bowtie analysis, the 'top event' is:`,[`The initial hazard`,`The loss of control over the hazard`,`The final consequence`,`Always a fatality`],1],
+[`In probability theory, the sum of probabilities of all mutually exclusive and collectively exhaustive events is _______.`,[`0`,`0.5`,`1`,`n`],2],
+[`In LOPA, the effectiveness of an Independent Protection Layer is quantified by its _______.`,[`Frequency`,`Severity`,`Probability of Failure on Demand (PFD)`,`Cost`],2],
+[`True/False: An Independent Protection Layer (IPL) in LOPA must be dependent on other safeguards.`,[`True`,`False`],1]
+],
+/* WEEK 10 */[
+[`According to Heinrich's Domino Theory, what percentage of accidents are caused by unsafe acts of people?`,[`50%`,`88%`,`10%`,`2%`],1],
+[`Which of the following best describes a "Near-Miss" in accident studies?`,[`An accident that results in severe injury.`,`An accident with property damage but no injury.`,`An event that does not result in injury or property damage but has the potential for serious consequences.`,`An unavoidable and unpredictable incident.`],2],
+[`In Ferrell's Human Factor Model, which of the following is not identified as a general cause of accidents?`,[`Overload`,`Incompatibility`,`Improper activities`,`Pure chance`],3],
+[`Which accident causation theory suggests that harmony between person, machine, and environment reduces accident probability, but disruption in this harmony increases the likelihood of accidents?`,[`Epidemiological Theory`,`Systems Theory`,`Energy Transfer Theory`,`Accident Proneness Theory`],1],
+[`In the Multiple Causation Theory, contributory factors are mainly grouped into which two categories?`,[`Behavioral and Environmental`,`Active and Latent`,`Task and Management`,`Chance and Risk`],0],
+[`What is the primary purpose of accident investigation?`,[`To assign blame to responsible employees`,`To improve health and safety performance by finding immediate and underlying causes`,`To avoid reporting accidents to authorities`,`To minimize paperwork in safety management systems`],1],
+[`In the six-step accident investigation process, which of the following is the first step?`,[`Report data and recommendations`,`Collect information`,`Develop corrective action`,`Take corrective action and monitor`],1],
+[`In accident investigation, hazards are classified into three categories: Class A, Class B, and Class C. Which of the following best describes a Class A hazard?`,[`Likely to cause non-disabling injuries or minor property damage`,`Likely to cause temporary disability or less severe property damage`,`Likely to cause permanent disability, loss of life, or extensive property damage`,`Unlikely to cause any harm but requires recordkeeping`],2],
+[`What was identified as the immediate cause of the Jaipur Terminal accident on 29th October 2009?`,[`Power failure in the pumping station`,`Non-observance of safe valve operation sequence and design permitting use of the Hammer Blind Valve`,`Explosion in the firewater system`,`Leakage from underground storage tanks`],1],
+[`Approximately how much Motor Spirit (MS) was estimated to have leaked in the 1 hour and 15 minutes before the explosion?`,[`100 tons`,`500 tons`,`1000 tons`,`2000 tons`],2]
+],
+/* WEEK 11 */[
+[`What was the immediate cause of the Flixborough disaster on June 1, 1974?`,[`Explosion of Reactor No. 5 due to overpressure`,`Rupture of a temporary bypass pipe between reactors`,`Failure of the cooling water system in the plant`,`Ignition of benzene vapors in the storage tank`],1],
+[`What quantity of cyclohexane was released when the bypass pipe failed at Flixborough?`,[`About 10 tonnes`,`About 20 tonnes`,`About 40 tonnes`,`About 100 tonnes`],2],
+[`What toxic compound was released during the Seveso accident in 1976?`,[`Benzene`,`Trichlorophenol (TCP)`,`TCDD (2,3,7,8-tetrachlorodibenzodioxin)`,`Hexachlorophene`],2],
+[`What was the soil concentration of TCDD in Zone A, the most contaminated area of Seveso?`,[`Less than 5 µg/m²`,`Between 5 and 50 µg/m²`,`Greater than 50 µg/m²`,`About 100 µg/m²`],2],
+[`True/False: The Chernobyl accident released only small quantities of radioactive gases into the atmosphere.`,[`True`,`False`],1],
+[`What was the main cause of the explosion at Chernobyl Reactor No. 4?`,[`Cooling system failure due to loss of water supply`,`Severe operator errors during a safety test`,`Sabotage of control systems`,`Earthquake-induced shutdown`],1],
+[`What type of reactor was involved in the Chernobyl disaster?`,[`Pressurized Water Reactor (PWR)`,`Boiling Water Reactor (BWR)`,`RBMK (High Power Channel-type Reactor)`,`Fast Breeder Reactor`],2],
+[`Which of the following safety principles was most severely violated during the Chernobyl disaster?`,[`Defense-in-depth`,`Material compatibility`,`Secondary containment integrity`,`Use of redundant cooling systems`],0],
+[`Both the Flixborough and Seveso accidents highlight critical gaps in process safety. Which of the following was a common contributing factor in both accidents?`,[`Inadequate hazard analysis and risk assessment`,`Sabotage of safety equipment`,`Earthquake-triggered plant failure`,`Use of substandard construction materials`],0],
+[`What was the main cause that led to the release of MIC in Bhopal?`,[`Explosion of a storage tank due to external fire`,`Addition of water into a storage tank containing MIC`,`Overfilling of the MIC tank`,`Mechanical failure of the refrigeration unit`],1]
+],
+/* WEEK 12 */[
+[`Which type of radiation is considered indirect ionizing radiation because it is electrically neutral and does not directly interact with atomic electrons?`,[`Alpha particles`,`Beta particles`,`Gamma rays`,`Positrons`],2],
+[`What is the SI unit for measuring the activity of a radioisotope?`,[`Curie (Ci)`,`Becquerel (Bq)`,`Gray (Gy)`,`Sievert (Sv)`],1],
+[`True/False: Alpha particles can easily penetrate the human skin and pass through the body.`,[`True`,`False`],1],
+[`Which disaster was a major reason for OSHA developing the Process Safety Management (PSM) standard?`,[`Pasadena, TX (1989) explosion`,`Bhopal, India (1984) isocyanate release`,`Sterlington, LA (1991) chemical release`,`Cincinnati, OH (1990) explosion`],1],
+[`How many elements are included in OSHA's Process Safety Management (PSM) standard?`,[`10`,`12`,`14`,`16`],2],
+[`True/False: Flame-resistant clothing (FRC) continues to burn even after the ignition source is removed.`,[`True`,`False`],1],
+[`Which class of hard hats provides protection against up to 20,000 volts of electrical exposure?`,[`Class G (General)`,`Class E (Electrical)`,`Class C (Conductive)`,`Class H (High voltage)`],1],
+[`According to Indian safety rules, which property determines a chemical as 'extremely flammable'?`,[`LD50 value`,`Flash point below or equal to 23°C and boiling point less than 35°C`,`Melting point higher than 100°C`,`Density less than 1 g/cm³`],1],
+[`Which act regulates the safety conditions for workers in Indian factories?`,[`The Mines Act, 1952`,`The Factories Act, 1948`,`The Dock Workers Safety, Health and Welfare Act, 1986`,`The Beedi and Cigar Workers (Conditions of Employment) Act, 1966`],1],
+[`Which scale is most commonly used to measure the magnitude of an earthquake?`,[`Mercalli Scale`,`Richter Scale`,`Mohs Scale`,`Beaufort Scale`],1]
+]
+];
+
+const app=document.getElementById('app');
+const L=['A','B','C','D'];
+let list=[],idx=0,firstTry=[],answered=false,mode='all';
+
+function buildList(sel){
+  list=[];
+  W.forEach((wk,wi)=>{ if(sel==='all'||+sel===wi) wk.forEach((q,qi)=>list.push({w:wi,n:qi+1,q:q[0],o:q[1],a:q[2]})); });
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
+
+let curSel='all';
+function getBest(){try{return JSON.parse(localStorage.getItem('ncp_best')||'{}')}catch(e){return {}}}
+function setBest(w,s){try{const b=getBest();if(b[w]===undefined||s>b[w]){b[w]=s;localStorage.setItem('ncp_best',JSON.stringify(b));}}catch(e){}}
+function start(sel){curSel=sel;buildList(sel);idx=0;firstTry=new Array(list.length).fill(null);show();}
+function home(){
+  const best=getBest();
+  let grid='';
+  W.forEach((_,i)=>{
+    const b=best[i]!==undefined?`Best: ${best[i]}/10`:'Not attempted';
+    grid+=`<button class="wk" data-w="${i}"><strong>Week ${i+1}</strong><small>10 questions</small><em>${b}</em></button>`;
+  });
+  app.innerHTML=`<h2>Computer-Based Assessment</h2>
+  <p class="sub">Chemical Process Safety &ndash; choose a week to begin.<br>Click the correct option to move to the next question. A wrong click turns red and you can try again &ndash; only your first attempt counts for the score.</p>
+  <div class="grid">${grid}</div>
+  <div class="row"><button class="btn" id="all">Take all 12 weeks (120 questions)</button></div>`;
+  document.querySelectorAll('.wk').forEach(b=>b.onclick=()=>start(b.dataset.w));
+  document.getElementById('all').onclick=()=>start('all');
+}
+function show(){
+  const it=list[idx];answered=false;
+  const pct=(idx/list.length*100).toFixed(1);
+  app.innerHTML=`<div class="bar"><i style="width:${pct}%"></i></div>
+  <div class="meta"><span>Week ${it.w+1} &middot; Question ${it.n}/10</span><span>Overall ${idx+1} / ${list.length}</span></div>
+  <p class="q">${esc(it.q)}</p>
+  <div id="opts">${it.o.map((t,i)=>`<button class="opt" data-i="${i}"><b>${L[i]}</b><span>${esc(t)}</span></button>`).join('')}</div>
+  <div class="msg" id="msg"></div>
+  <div class="row"><button class="btn ghost" id="prev" ${idx===0?'disabled':''}>&larr; Back</button><button class="btn ghost" id="skip">Skip &rarr;</button><button class="btn ghost" id="quit" style="margin-left:auto">Quit</button></div>`;
+  document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>pick(b));
+  document.getElementById('prev').onclick=()=>{if(idx>0){idx--;show();}};
+  document.getElementById('skip').onclick=next;
+  document.getElementById('quit').onclick=()=>{if(confirm('Quit and see results so far?'))finish();};
+}
+function pick(b){
+  if(answered||b.classList.contains('wrong'))return;
+  const it=list[idx],i=+b.dataset.i,msg=document.getElementById('msg');
+  if(i===it.a){
+    answered=true;
+    if(firstTry[idx]===null)firstTry[idx]=true;
+    b.classList.add('right');msg.className='msg ok';msg.textContent='Correct!';
+    setTimeout(next,650);
+  }else{
+    if(firstTry[idx]===null)firstTry[idx]=false;
+    b.classList.add('wrong');msg.className='msg bad';msg.textContent='Incorrect – try another option.';
+  }
+}
+function next(){ if(idx<list.length-1){idx++;show();}else finish(); }
+function finish(){
+  const total=list.length;
+  let correct=firstTry.filter(x=>x===true).length;
+  const per={};
+  list.forEach((it,i)=>{const k=it.w;per[k]=per[k]||{c:0,t:0,u:0};per[k].t++;if(firstTry[i]===true)per[k].c++;if(firstTry[i]===null)per[k].u++;});
+  let rows='';Object.keys(per).forEach(k=>rows+=`<tr><td>Week ${+k+1}</td><td>${per[k].c} / ${per[k].t}</td><td>${per[k].u} unattempted</td></tr>`);
+  app.innerHTML=`<h2>Quiz Complete</h2><div class="score">${correct} / ${total}</div>
+  <p class="sub">First-attempt score: ${(correct/total*100).toFixed(1)}%</p>
+  <table><tr><th>Week</th><th>Score</th><th></th></tr>${rows}</table>
+  <div class="row">${curSel!=='all'&&+curSel<11?'<button class="btn" id="nw">Next Week &rarr;</button>':''}<button class="btn ghost" id="retry">Retry</button><button class="btn ghost" id="menu">All Weeks</button></div>`;
+  if(curSel!=='all')setBest(curSel,correct);
+  else Object.keys(per).forEach(k=>setBest(k,per[k].c));
+  const nw=document.getElementById('nw');if(nw)nw.onclick=()=>start(String(+curSel+1));
+  document.getElementById('retry').onclick=()=>start(curSel);
+  document.getElementById('menu').onclick=home;
+}
+home();
+</script>
+</body>
+</html>
